@@ -1,34 +1,33 @@
 from src.audio.listener import listen
 from src.audio.speaker import speak
-from src.core.brain import ask_ai
+
 from src.core.commands import execute_command
+from src.core.brain import ask_ai
+
+from src.config import ASSISTANT_NAME
 
 
 def main():
 
-    speak("Hello Arun. I am Evi. How can I help you?")
+    speak(f"Hello, I am {ASSISTANT_NAME}. How can I help you?")
 
     while True:
 
         command = listen()
 
-        if command == "":
+        if not command:
             continue
 
-        local = execute_command(command)
+        response = execute_command(command)
 
-        if local:
+        if response == "EXIT":
+            speak("Goodbye!")
+            break
 
-            speak(local)
+        if response is None:
+            response = ask_ai(command)
 
-            if local == "Goodbye!":
-                break
-
-            continue
-
-        reply = ask_ai(command)
-
-        speak(reply)
+        speak(response)
 
 
 if __name__ == "__main__":
