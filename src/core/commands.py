@@ -1,42 +1,68 @@
+import os
 import webbrowser
-import wikipedia
+import subprocess
 from datetime import datetime
 
-def execute_command(command):
-    command = command.lower()
 
-    if "google" in command:
+def execute_command(command: str):
+    command = command.lower().strip()
+
+    # ---------------- Browser ---------------- #
+
+    if "open google" in command:
         webbrowser.open("https://www.google.com")
         return "Opening Google."
 
-    elif "youtube" in command:
+    if "open youtube" in command:
         webbrowser.open("https://www.youtube.com")
         return "Opening YouTube."
 
-    elif "github" in command:
+    if "open github" in command:
         webbrowser.open("https://github.com")
         return "Opening GitHub."
 
-    elif "time" in command:
-        return "Current time is " + datetime.now().strftime("%I:%M %p")
+    if "open chatgpt" in command:
+        webbrowser.open("https://chat.openai.com")
+        return "Opening ChatGPT."
 
-    elif "date" in command:
-        return "Today's date is " + datetime.now().strftime("%d %B %Y")
+    # ---------------- Applications ---------------- #
 
-    elif "wikipedia" in command:
-        topic = command.replace("wikipedia", "").strip()
+    if "open chrome" in command:
+        chrome = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
 
-        if topic == "":
-            return "Please tell me what you want to search."
+        if os.path.exists(chrome):
+            subprocess.Popen(chrome)
+            return "Opening Chrome."
 
-        try:
-            result = wikipedia.summary(topic, sentences=2)
-            return result
-        except:
-            return "Sorry, I couldn't find that topic."
+        return "Chrome is not installed."
 
-    elif "exit" in command:
-        return "exit"
+    if "open notepad" in command:
+        subprocess.Popen("notepad")
+        return "Opening Notepad."
 
-    else:
-        return "Sorry, I don't know that command yet."
+    if "open calculator" in command:
+        subprocess.Popen("calc")
+        return "Opening Calculator."
+
+    if "open vscode" in command:
+        subprocess.Popen("code")
+        return "Opening Visual Studio Code."
+
+    # ---------------- Date & Time ---------------- #
+
+    if "time" in command:
+        return datetime.now().strftime(
+            "The current time is %I:%M %p"
+        )
+
+    if "date" in command:
+        return datetime.now().strftime(
+            "Today is %d %B %Y"
+        )
+
+    # ---------------- Exit ---------------- #
+
+    if command in ["exit", "quit", "goodbye"]:
+        return "EXIT"
+
+    return None
