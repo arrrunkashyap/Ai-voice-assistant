@@ -122,7 +122,6 @@ SYSTEM_COMMANDS = [
 
     "log out",
     "logout",
-    "sign out"
 ]
 
 SEARCH_GOOGLE = [
