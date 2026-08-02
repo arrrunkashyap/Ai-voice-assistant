@@ -7,28 +7,39 @@ from src.core.brain import ask_ai
 from src.config import ASSISTANT_NAME
 
 
-def main():
+class Assistant:
 
-    speak(f"Hello, I am {ASSISTANT_NAME}. How can I help you?")
+    def __init__(self):
+        pass
 
-    while True:
-
-        command = listen()
-
-        if not command:
-            continue
+    def process(self, command: str):
 
         response = execute_command(command)
 
         if response == "EXIT":
-            speak("Goodbye!")
-            break
+            return "EXIT"
 
         if response is None:
             response = ask_ai(command)
 
-        speak(response)
+        return response
 
+    def start(self):
 
-if __name__ == "__main__":
-    main()
+        speak(f"Hello, I am {ASSISTANT_NAME}. How can I help you?")
+
+        while True:
+
+            command = listen()
+
+            if not command:
+                continue
+
+            response = self.process(command)
+
+            if response == "EXIT":
+                speak("Goodbye!")
+                break
+
+            if response:
+                speak(response)

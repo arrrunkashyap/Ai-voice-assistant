@@ -1,4 +1,5 @@
-from src.core.assistant import main
+from src.core.assistant import Assistant
 
-if __name__ == "__main__":
-    main()
+assistant = Assistant()
+
+assistant.start()
