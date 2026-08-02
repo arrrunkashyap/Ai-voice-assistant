@@ -1,18 +1,36 @@
 from google import genai
-from src.config import GEMINI_API_KEY
+from config import GEMINI_API_KEY
 
 client = genai.Client(api_key=GEMINI_API_KEY)
 
+conversation = []
 
-def ask_ai(prompt):
+
+def ask_ai(prompt: str):
+    conversation.append(
+        {
+            "role": "user",
+            "parts": [{"text": prompt}]
+        }
+    )
+
     try:
         response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=prompt,
+            model="models/gemini-3.1-flash-live-preview",
+            contents=conversation
         )
 
-        return response.text
+        answer = response.text
+
+        conversation.append(
+            {
+                "role": "model",
+                "parts": [{"text": answer}]
+            }
+        )
+
+        return answer
 
     except Exception as e:
         print("Gemini Error:", e)
-        return "Sorry, I couldn't connect to Gemini right now."
+        return "Sorry, I couldn't answer that."

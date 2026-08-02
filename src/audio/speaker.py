@@ -7,12 +7,12 @@ engine.setProperty("volume", 1.0)
 
 voices = engine.getProperty("voices")
 
-# 0 = Male
-# 1 = Female (if available)
-engine.setProperty("voice", voices[1].id)
+# Try to use a female voice if available
+if len(voices) > 1:
+    engine.setProperty("voice", voices[1].id)
 
 
-def speak(text):
-    print(f"Evi: {text}")
+def speak(text: str):
+    print(f"EVI: {text}")
     engine.say(text)
     engine.runAndWait()
