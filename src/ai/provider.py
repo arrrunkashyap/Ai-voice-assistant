@@ -1,23 +1,12 @@
-from utils.internet import is_online
+from enum import Enum
 
 
-class Provider:
+class Provider(Enum):
 
-    def __init__(self):
-        self.provider = None
+    GEMINI = "gemini"
 
-    def load(self):
+    OLLAMA = "ollama"
 
-        if is_online():
-            from ai.gemini_provider import GeminiProvider
-            self.provider = GeminiProvider()
-        else:
-            from ai.ollama_provider import OllamaProvider
-            self.provider = OllamaProvider()
+    OPENAI = "openai"
 
-    def ask(self, prompt):
-
-        if self.provider is None:
-            self.load()
-
-        return self.provider.ask(prompt)
+    GROQ = "groq"

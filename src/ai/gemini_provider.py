@@ -1,8 +1,8 @@
-from ai.base_provider import AIProvider
+from src.ai.base_provider import BaseProvider
 
 
-class GeminiProvider(AIProvider):
+class GeminiProvider(BaseProvider):
 
     def ask(self, prompt):
 
-        return f"[Gemini] {prompt}"
+        return "[Gemini] " + prompt

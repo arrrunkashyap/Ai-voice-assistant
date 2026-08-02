@@ -1,339 +1,392 @@
-import os
-import subprocess
-import webbrowser
-from datetime import datetime
-
-# ---------- Command Lists ---------- #
-
-CHROME_COMMANDS = [
-    "open chrome",
-    "launch chrome",
-    "start chrome",
-    "open browser"
-]
-
-VSCODE_COMMANDS = [
-    "open vscode",
-    "open visual studio code",
-    "launch vscode",
-    "start vscode"
-]
-
-NOTEPAD_COMMANDS = [
-    "open notepad",
-    "start notepad"
-]
-
-CALCULATOR_COMMANDS = [
-    "open calculator",
-    "start calculator",
-    "open calc"
-]
-
-PAINT_COMMANDS = [
-    "open paint",
-    "start paint"
-]
-
-EXPLORER_COMMANDS = [
-    "open file explorer",
-    "open explorer"
-]
-
-TASK_MANAGER_COMMANDS = [
-    "open task manager",
-    "task manager"
-]
-
-CMD_COMMANDS = [
-    "open cmd",
-    "open command prompt"
-]
-
-POWERSHELL_COMMANDS = [
-    "open powershell"
-]
-
-GOOGLE_COMMANDS = [
-    "open google"
-]
-
-YOUTUBE_COMMANDS = [
-    "open youtube"
-]
-
-GITHUB_COMMANDS = [
-    "open github"
-]
-
-CHATGPT_COMMANDS = [
-    "open chatgpt"
-]
-
-DOWNLOADS_COMMANDS = [
-    "open downloads"
-]
-
-DOCUMENTS_COMMANDS = [
-    "open documents"
-]
-
-DESKTOP_COMMANDS = [
-    "open desktop"
-]
-
-PICTURES_COMMANDS = [
-    "open pictures"
-]
-
-TIME_COMMANDS = [
-    "time",
-    "what time",
-    "current time"
-]
-
-DATE_COMMANDS = [
-    "date",
-    "today's date",
-    "current date"
-]
-
-EXIT_COMMANDS = [
-    "exit",
-    "keep quiet",
-    "bye",
-    "stop"
-]
-#----------system commands---#
-SYSTEM_COMMANDS = [
-    "lock computer",
-    "lock pc",
-    "lock windows",
-
-    "shutdown computer",
-    "shutdown pc",
-    "shut down",
-
-    "restart computer",
-    "restart pc",
-
-    "sleep computer",
-    "sleep pc",
-
-    "log out",
-    "logout",
-]
-
-SEARCH_GOOGLE = [
-    "search",
-    "google"
-]
-
-SEARCH_YOUTUBE = [
-    "search youtube",
-    "youtube search"
-]
+from src.commands.apps import *
+from src.commands.browser import *
+from src.commands.files import *
+from src.commands.system import *
+from src.commands.datetime_cmd import *
 
 
-# ---------- Execute Commands ---------- #
+# ---------------- Command Lists ---------------- #
 
-def execute_command(command):
+COMMANDS = {
+
+    # ---------- Apps ---------- #
+
+    "chrome": [
+        "open chrome",
+        "launch chrome",
+        "start chrome",
+        "open browser"
+    ],
+
+    "edge": [
+        "open edge"
+    ],
+
+    "firefox": [
+        "open firefox"
+    ],
+
+    "vscode": [
+        "open vscode",
+        "open visual studio code",
+        "launch vscode"
+    ],
+
+    "notepad": [
+        "open notepad"
+    ],
+
+    "calculator": [
+        "open calculator",
+        "open calc"
+    ],
+
+    "paint": [
+        "open paint"
+    ],
+
+    "explorer": [
+        "open explorer",
+        "open file explorer"
+    ],
+
+    "cmd": [
+        "open cmd",
+        "open command prompt"
+    ],
+
+    "powershell": [
+        "open powershell"
+    ],
+
+    "taskmanager": [
+        "open task manager"
+    ],
+
+    # ---------- Browser ---------- #
+
+    "google": [
+        "open google"
+    ],
+
+    "youtube": [
+        "open youtube"
+    ],
+
+    "github": [
+        "open github"
+    ],
+
+    "chatgpt": [
+        "open chatgpt"
+    ],
+
+    "linkedin": [
+        "open linkedin"
+    ],
+
+    "gmail": [
+        "open gmail"
+    ],
+
+    "leetcode": [
+        "open leetcode"
+    ],
+
+    "stackoverflow": [
+        "open stack overflow"
+    ],
+
+    # ---------- Files ---------- #
+
+    "downloads": [
+        "open downloads"
+    ],
+
+    "documents": [
+        "open documents"
+    ],
+
+    "desktop": [
+        "open desktop"
+    ],
+
+    "pictures": [
+        "open pictures"
+    ],
+
+    "music": [
+        "open music"
+    ],
+
+    "videos": [
+        "open videos"
+    ],
+
+    "thispc": [
+        "open this pc"
+    ],
+
+    "recyclebin": [
+        "open recycle bin"
+    ],
+
+    # ---------- System ---------- #
+
+    "shutdown": [
+        "shutdown computer",
+        "shutdown pc",
+        "shut down"
+    ],
+
+    "restart": [
+        "restart computer",
+        "restart pc"
+    ],
+
+    "lock": [
+        "lock computer",
+        "lock pc"
+    ],
+
+    "sleep": [
+        "sleep computer",
+        "sleep pc"
+    ],
+
+    "hibernate": [
+        "hibernate computer"
+    ],
+
+    "logout": [
+        "logout",
+        "log out"
+    ],
+
+    "cancelshutdown": [
+        "cancel shutdown"
+    ],
+
+    "battery": [
+        "battery status",
+        "battery percentage"
+    ],
+
+    "cpu": [
+        "cpu usage"
+    ],
+
+    "ram": [
+        "ram usage",
+        "memory usage"
+    ],
+
+    "disk": [
+        "disk usage"
+    ],
+
+    "uptime": [
+        "system uptime"
+    ],
+
+    # ---------- Date & Time ---------- #
+
+    "time": [
+        "what time",
+        "current time",
+        "time"
+    ],
+
+    "date": [
+        "today date",
+        "current date",
+        "date"
+    ],
+
+    "day": [
+        "today day",
+        "day"
+    ],
+
+    "month": [
+        "month"
+    ],
+
+    "year": [
+        "year"
+    ]
+}
+
+
+# ---------------- Execute ---------------- #
+
+def execute_command(command: str):
 
     command = command.lower().strip()
 
-    # ---------------- Chrome ---------------- #
+    # Exit
 
-    if any(cmd in command for cmd in CHROME_COMMANDS):
-
-        chrome = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
-
-        if os.path.exists(chrome):
-            subprocess.Popen(chrome)
-            return "Opening Chrome."
-
-        return "Chrome is not installed."
-
-    # ---------------- VS Code ---------------- #
-
-    if any(cmd in command for cmd in VSCODE_COMMANDS):
-
-        subprocess.Popen("code")
-        return "Opening Visual Studio Code."
-
-    # ---------------- Notepad ---------------- #
-
-    if any(cmd in command for cmd in NOTEPAD_COMMANDS):
-
-        subprocess.Popen("notepad")
-        return "Opening Notepad."
-
-    # ---------------- Calculator ---------------- #
-
-    if any(cmd in command for cmd in CALCULATOR_COMMANDS):
-
-        subprocess.Popen("calc")
-        return "Opening Calculator."
-
-    # ---------------- Paint ---------------- #
-
-    if any(cmd in command for cmd in PAINT_COMMANDS):
-
-        subprocess.Popen("mspaint")
-        return "Opening Paint."
-
-    # ---------------- Explorer ---------------- #
-
-    if any(cmd in command for cmd in EXPLORER_COMMANDS):
-
-        subprocess.Popen("explorer")
-        return "Opening File Explorer."
-
-    # ---------------- Task Manager ---------------- #
-
-    if any(cmd in command for cmd in TASK_MANAGER_COMMANDS):
-
-        subprocess.Popen("taskmgr")
-        return "Opening Task Manager."
-
-    # ---------------- CMD ---------------- #
-
-    if any(cmd in command for cmd in CMD_COMMANDS):
-
-        subprocess.Popen("cmd")
-        return "Opening Command Prompt."
-
-    # ---------------- PowerShell ---------------- #
-
-    if any(cmd in command for cmd in POWERSHELL_COMMANDS):
-
-        subprocess.Popen("powershell")
-        return "Opening PowerShell."
-
-    # ---------------- Downloads ---------------- #
-
-    if any(cmd in command for cmd in DOWNLOADS_COMMANDS):
-
-        os.startfile(os.path.join(os.path.expanduser("~"), "Downloads"))
-        return "Opening Downloads."
-
-    # ---------------- Documents ---------------- #
-
-    if any(cmd in command for cmd in DOCUMENTS_COMMANDS):
-
-        os.startfile(os.path.join(os.path.expanduser("~"), "Documents"))
-        return "Opening Documents."
-
-    # ---------------- Desktop ---------------- #
-
-    if any(cmd in command for cmd in DESKTOP_COMMANDS):
-
-        os.startfile(os.path.join(os.path.expanduser("~"), "Desktop"))
-        return "Opening Desktop."
-
-    # ---------------- Pictures ---------------- #
-
-    if any(cmd in command for cmd in PICTURES_COMMANDS):
-
-        os.startfile(os.path.join(os.path.expanduser("~"), "Pictures"))
-        return "Opening Pictures."
-
-    # ---------------- Websites ---------------- #
-
-    if any(cmd in command for cmd in GOOGLE_COMMANDS):
-
-        webbrowser.open("https://www.google.com")
-        return "Opening Google."
-
-    if any(cmd in command for cmd in YOUTUBE_COMMANDS):
-
-        webbrowser.open("https://www.youtube.com")
-        return "Opening YouTube."
-
-    if any(cmd in command for cmd in GITHUB_COMMANDS):
-
-        webbrowser.open("https://github.com")
-        return "Opening GitHub."
-
-    if any(cmd in command for cmd in CHATGPT_COMMANDS):
-
-        webbrowser.open("https://chat.openai.com")
-        return "Opening ChatGPT."
-
-    # ---------------- Search Google ---------------- #
-
-    if command.startswith("search google "):
-
-        query = command.replace("search", "").strip()
-
-        webbrowser.open(
-            f"https://www.google.com/search?q={query}"
-        )
-
-        return f"Searching Google for {query}"
-
-    #----------youtube search----#
-    if command.startswith("search youtube"):
-
-        query = command.replace("search youtube", "").strip()
-
-        webbrowser.open(
-            f"https://www.youtube.com/results?search_query={query}"
-        )
-
-        return f"Searching YouTube for {query}."
-    # ---------------- Time ---------------- #
-
-    if any(cmd in command for cmd in TIME_COMMANDS):
-
-        return datetime.now().strftime(
-            "Current time is %I:%M %p"
-        )
-
-    # ---------------- Date ---------------- #
-
-    if any(cmd in command for cmd in DATE_COMMANDS):
-
-        return datetime.now().strftime(
-            "Today is %d %B %Y"
-        )
-
-    #-----system commands--#
-    if any(cmd in command for cmd in [
-        "lock computer",
-        "lock pc",
-        "lock windows"
-    ]):
-
-        os.system("rundll32.exe user32.dll,LockWorkStation")
-
-        return "Locking your computer."
-
-    if any(cmd in command for cmd in [
-        "restart computer",
-        "restart pc"
-
-    ]):
-
-        os.system("shutdown /r /t 5")
-        return "Restarting your computer." 
-
-
-    if any(cmd in command for cmd in [
-        "sleep computer",
-        "sleep pc"
-
-    ]):
-        os.system("rundll32.exe powrprof.dll,SetSuspendState 0,1,0")
-        return "Putting the computer to sleep."
-
-    if "cancel shutdown" in command:
-
-        os.system("shutdown /a")
-        return "Shutdown cancelled."
-    # ---------------- Exit ---------------- #
-
-    if command in EXIT_COMMANDS:
+    if command in ["exit", "bye", "stop", "goodbye"]:
 
         return "EXIT"
+
+    # ---------- Apps ---------- #
+
+    if any(c in command for c in COMMANDS["chrome"]):
+        return open_chrome()
+
+    if any(c in command for c in COMMANDS["edge"]):
+        return open_edge()
+
+    if any(c in command for c in COMMANDS["firefox"]):
+        return open_firefox()
+
+    if any(c in command for c in COMMANDS["vscode"]):
+        return open_vscode()
+
+    if any(c in command for c in COMMANDS["notepad"]):
+        return open_notepad()
+
+    if any(c in command for c in COMMANDS["calculator"]):
+        return open_calculator()
+
+    if any(c in command for c in COMMANDS["paint"]):
+        return open_paint()
+
+    if any(c in command for c in COMMANDS["explorer"]):
+        return open_explorer()
+
+    if any(c in command for c in COMMANDS["cmd"]):
+        return open_cmd()
+
+    if any(c in command for c in COMMANDS["powershell"]):
+        return open_powershell()
+
+    if any(c in command for c in COMMANDS["taskmanager"]):
+        return open_task_manager()
+
+    # ---------- Browser ---------- #
+
+    if any(c in command for c in COMMANDS["google"]):
+        return open_google()
+
+    if any(c in command for c in COMMANDS["youtube"]):
+        return open_youtube()
+
+    if any(c in command for c in COMMANDS["github"]):
+        return open_github()
+
+    if any(c in command for c in COMMANDS["chatgpt"]):
+        return open_chatgpt()
+
+    if any(c in command for c in COMMANDS["linkedin"]):
+        return open_linkedin()
+
+    if any(c in command for c in COMMANDS["gmail"]):
+        return open_gmail()
+
+    if any(c in command for c in COMMANDS["leetcode"]):
+        return open_leetcode()
+
+    if any(c in command for c in COMMANDS["stackoverflow"]):
+        return open_stackoverflow()
+
+    # ---------- Search ---------- #
+
+    if command.startswith("search google "):
+        return search_google(command.replace("search google", "").strip())
+
+    if command.startswith("search youtube "):
+        return search_youtube(command.replace("search youtube", "").strip())
+
+    if command.startswith("search github "):
+        return search_github(command.replace("search github", "").strip())
+
+    if command.startswith("search maps "):
+        return search_maps(command.replace("search maps", "").strip())
+
+    if command.startswith("wikipedia "):
+        return search_wikipedia(command.replace("wikipedia", "").strip())
+
+    # ---------- Files ---------- #
+
+    if any(c in command for c in COMMANDS["downloads"]):
+        return open_downloads()
+
+    if any(c in command for c in COMMANDS["documents"]):
+        return open_documents()
+
+    if any(c in command for c in COMMANDS["desktop"]):
+        return open_desktop()
+
+    if any(c in command for c in COMMANDS["pictures"]):
+        return open_pictures()
+
+    if any(c in command for c in COMMANDS["music"]):
+        return open_music()
+
+    if any(c in command for c in COMMANDS["videos"]):
+        return open_videos()
+
+    if any(c in command for c in COMMANDS["thispc"]):
+        return open_this_pc()
+
+    if any(c in command for c in COMMANDS["recyclebin"]):
+        return open_recycle_bin()
+
+    # ---------- System ---------- #
+
+    if any(c in command for c in COMMANDS["shutdown"]):
+        return shutdown()
+
+    if any(c in command for c in COMMANDS["restart"]):
+        return restart()
+
+    if any(c in command for c in COMMANDS["lock"]):
+        return lock_pc()
+
+    if any(c in command for c in COMMANDS["sleep"]):
+        return sleep()
+
+    if any(c in command for c in COMMANDS["hibernate"]):
+        return hibernate()
+
+    if any(c in command for c in COMMANDS["logout"]):
+        return logout()
+
+    if any(c in command for c in COMMANDS["cancelshutdown"]):
+        return cancel_shutdown()
+
+    if any(c in command for c in COMMANDS["battery"]):
+        return battery_status()
+
+    if any(c in command for c in COMMANDS["cpu"]):
+        return cpu_usage()
+
+    if any(c in command for c in COMMANDS["ram"]):
+        return ram_usage()
+
+    if any(c in command for c in COMMANDS["disk"]):
+        return disk_usage()
+
+    if any(c in command for c in COMMANDS["uptime"]):
+        return uptime()
+
+    # ---------- Date & Time ---------- #
+
+    if any(c in command for c in COMMANDS["time"]):
+        return current_time()
+
+    if any(c in command for c in COMMANDS["date"]):
+        return current_date()
+
+    if any(c in command for c in COMMANDS["day"]):
+        return current_day()
+
+    if any(c in command for c in COMMANDS["month"]):
+        return current_month()
+
+    if any(c in command for c in COMMANDS["year"]):
+        return current_year()
 
     return None

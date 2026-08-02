@@ -1,8 +1,9 @@
 from abc import ABC, abstractmethod
 
 
-class AIProvider(ABC):
+class BaseProvider(ABC):
 
     @abstractmethod
     def ask(self, prompt: str) -> str:
+        """Return AI response."""
         pass
