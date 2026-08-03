@@ -1,6 +1,4 @@
 This will be my major project for collage.AI-powered voice assistant built with Python, featuring speech recognition, natural language processing, and desktop automation.
-
-
 <div align="center">
 
 <img src="assets/evi%20logo.png" width="220" alt="EVI Logo">
