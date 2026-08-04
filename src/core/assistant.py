@@ -35,7 +35,14 @@ class Assistant:
                 return "EXIT"
 
             if response is None:
-                response = self.ai.ask(command)
+                response = ""
+                print("EVI: ", end="", flush=True)
+
+                for chunk in self.ai.stream(command):
+                    print(chunk, end="", flush=True)
+                    response += chunk
+
+                    print()
 
             self.history.add_assistant(response)
 
