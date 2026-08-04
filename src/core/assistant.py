@@ -27,23 +27,32 @@ class Assistant:
 
         try:
 
+            # Store user message
             self.history.add_user(command)
 
+            # Check local commands first
             response = execute_command(command)
 
             if response == "EXIT":
                 return "EXIT"
 
+            # If not a local command, ask AI
             if response is None:
+
                 response = ""
+
                 print("EVI: ", end="", flush=True)
 
-                for chunk in self.ai.stream(command):
+                for chunk in self.ai.stream(
+                    command,
+                    self.history.get()
+                ):
                     print(chunk, end="", flush=True)
                     response += chunk
 
-                    print()
+                print()
 
+            # Save every assistant response
             self.history.add_assistant(response)
 
             return response

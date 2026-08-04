@@ -28,8 +28,8 @@ class ProviderManager:
         # Fallback to Ollama
         return self.ollama.ask(prompt)
 
-    def stream(self, prompt: str):
+    def stream(self, prompt: str,history=None):
         if self.is_online():
-            return self.gemini.stream(prompt)
+            return self.gemini.stream(prompt,history)
 
             return self.ollama.stream(prompt)
