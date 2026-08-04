@@ -32,4 +32,4 @@ class ProviderManager:
         if self.is_online():
             return self.gemini.stream(prompt,history)
 
-            return self.ollama.stream(prompt)
+        return self.ollama.stream(prompt)

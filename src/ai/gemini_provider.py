@@ -1,6 +1,7 @@
+print("Loaded GeminiProvider from:", __file__)
 from google import genai
 from google.genai.errors import ClientError
-
+from src.prompts.system_prompt import SYSTEM_PROMPT
 from src.ai.base_provider import BaseProvider
 from src import config
 
@@ -34,19 +35,25 @@ class GeminiProvider(BaseProvider):
             return f"Unexpected error: {e}"
 
     def stream(self, prompt: str, history=None):
-        contents = []
+        print("Inside GeminiProvider.stream()")
+        contents = [
+            {
+                "role": "user",
+                "parts": [{"text": SYSTEM_PROMPT}]
+            }
+        ]
 
-        for msg in history:
-            contents.append({
-                "role": msg["role"],
-                "parts": [{"text": msg["text"]}]
-            })
+        if history:
+            for msg in history:
+                contents.append({
+                    "role": msg["role"],
+                    "parts": [{"text": msg["text"]}]
+                })
 
         stream = self.client.models.generate_content_stream(
             model=config.GEMINI_MODEL,
             contents=contents,
         )
-
         for chunk in stream:
             if chunk.text:
                 yield chunk.text
