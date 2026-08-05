@@ -6,7 +6,6 @@ This will be my major project for collage.AI-powered voice assistant built with 
 # EVI AI
 
 
-
 **An Intelligent AI Desktop Productivity Assistant powered by Large Language Models, Voice AI, Desktop Automation, and Smart Memory.**
 
 ![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)
