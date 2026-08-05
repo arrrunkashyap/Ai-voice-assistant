@@ -1,0 +1,9 @@
+
+def open_url(url: str):
+    ...
+
+def google_search(query: str):
+    ...
+
+def youtube_search(query: str):
+    ...

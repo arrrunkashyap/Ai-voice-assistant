@@ -1,0 +1,9 @@
+
+def open_app(name: str):
+    ...
+
+def close_app(name: str):
+    ...
+
+def is_running(name: str):
+    ...

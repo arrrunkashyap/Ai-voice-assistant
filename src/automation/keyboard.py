@@ -1,0 +1,9 @@
+
+def press(keys):
+    ...
+
+def hotkey(*keys):
+    ...
+
+def type_text(text):
+    ...
