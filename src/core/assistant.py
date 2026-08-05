@@ -7,7 +7,7 @@ from src.ai.provider_manager import ProviderManager
 
 from src.memory.history import History
 from src.memory.session import Session
-
+import traceback
 from src.config import ASSISTANT_NAME
 
 
@@ -57,10 +57,8 @@ class Assistant:
 
             return response
 
-        except Exception as e:
-
-            print(e)
-
+        except Exception:
+            traceback.print_exc()
             return "Sorry, something went wrong."
 
     def start(self):
